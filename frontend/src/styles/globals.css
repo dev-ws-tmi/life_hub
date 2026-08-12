@@ -1,0 +1,276 @@
+@import "tailwindcss";
+
+/* ── Google Fonts ─────────────────────────────────────────────────────────── */
+/* Importades via index.html per pre-connect optimization */
+
+/* ── Design Tokens ─────────────────────────────────────────────────────────── */
+@theme {
+  /* Tipografia */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Outfit', 'Inter', system-ui, sans-serif;
+
+  /* Colors de la marca — Paleta Dinàmica */
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+  --color-brand-950: var(--brand-950);
+
+  /* Colors accentuals */
+  --color-accent-violet: oklch(62% 0.25 305);
+  --color-accent-pink: oklch(65% 0.25 340);
+  --color-accent-cyan: oklch(72% 0.18 210);
+  --color-accent-emerald: oklch(68% 0.18 160);
+  --color-accent-amber: oklch(75% 0.18 80);
+
+  /* Superfícies dark mode */
+  --color-surface-base: oklch(9% 0.02 290);
+  --color-surface-raised: oklch(13% 0.025 290);
+  --color-surface-elevated: oklch(17% 0.03 290);
+  --color-surface-overlay: oklch(22% 0.035 290);
+
+  /* Superfícies light mode */
+  --color-surface-light-base: oklch(98% 0.005 290);
+  --color-surface-light-raised: oklch(100% 0 0);
+  --color-surface-light-elevated: oklch(97% 0.008 290);
+  --color-surface-light-overlay: oklch(94% 0.01 290);
+
+  /* Radius */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+  --radius-full: 9999px;
+}
+
+/* ── Variables CSS per mode fosc/clar ──────────────────────────────────────── */
+:root {
+  --brand-hue: 290;
+  --brand-chroma: 0.22;
+
+  --brand-50: oklch(97% 0.03 var(--brand-hue));
+  --brand-100: oklch(93% 0.06 var(--brand-hue));
+  --brand-200: oklch(87% 0.11 var(--brand-hue));
+  --brand-300: oklch(78% 0.16 var(--brand-hue));
+  --brand-400: oklch(68% 0.20 var(--brand-hue));
+  --brand-500: oklch(58% var(--brand-chroma) var(--brand-hue));
+  --brand-600: oklch(50% var(--brand-chroma) var(--brand-hue));
+  --brand-700: oklch(42% 0.19 var(--brand-hue));
+  --brand-800: oklch(34% 0.15 var(--brand-hue));
+  --brand-900: oklch(26% 0.10 var(--brand-hue));
+  --brand-950: oklch(18% 0.06 var(--brand-hue));
+
+  --bg-base: var(--color-surface-light-base);
+  --bg-raised: var(--color-surface-light-raised);
+  --bg-elevated: var(--color-surface-light-elevated);
+  --bg-overlay: var(--color-surface-light-overlay);
+  --text-primary: oklch(12% 0.02 290);
+  --text-secondary: oklch(40% 0.03 290);
+  --text-tertiary: oklch(58% 0.025 290);
+  --text-muted: oklch(72% 0.02 290);
+  --border-subtle: oklch(90% 0.01 290);
+  --border-default: oklch(84% 0.015 290);
+  --shadow-brand: 0 0 0 3px oklch(58% var(--brand-chroma) var(--brand-hue) / 0.25);
+}
+
+.dark {
+  --bg-base: var(--color-surface-base);
+  --bg-raised: var(--color-surface-raised);
+  --bg-elevated: var(--color-surface-elevated);
+  --bg-overlay: var(--color-surface-overlay);
+  --text-primary: oklch(96% 0.01 290);
+  --text-secondary: oklch(75% 0.025 290);
+  --text-tertiary: oklch(58% 0.02 290);
+  --text-muted: oklch(42% 0.015 290);
+  --border-subtle: oklch(20% 0.03 290);
+  --border-default: oklch(26% 0.035 290);
+  --shadow-brand: 0 0 0 3px oklch(58% var(--brand-chroma) var(--brand-hue) / 0.35);
+}
+
+/* ── Reset i Base ───────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100dvh;
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Scrollbar Custom ───────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* ── Selecció de text ───────────────────────────────────────────────────────── */
+::selection {
+  background: oklch(58% var(--brand-chroma) var(--brand-hue) / 0.25);
+  color: var(--text-primary);
+}
+
+/* ── Focus visible accessible ──────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid oklch(58% var(--brand-chroma) var(--brand-hue));
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+/* ── Utilities personalitzades ─────────────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.text-gradient {
+  background: linear-gradient(
+    135deg,
+    oklch(68% var(--brand-chroma) var(--brand-hue)) 0%,
+    oklch(65% var(--brand-chroma) var(--brand-hue)) 50%,
+    oklch(62% var(--brand-chroma) var(--brand-hue)) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass {
+  background: oklch(100% 0 0 / 0.05);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid oklch(100% 0 0 / 0.1);
+}
+
+.dark .glass {
+  background: oklch(100% 0 0 / 0.04);
+  border-color: oklch(100% 0 0 / 0.08);
+}
+
+/* ── Card component base ───────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--border-default);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 32px oklch(0% 0 0 / 0.12);
+}
+
+.dark .card:hover {
+  box-shadow: 0 8px 32px oklch(0% 0 0 / 0.4);
+}
+
+/* ── Animació entrada ──────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-brand {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(58% var(--brand-chroma) var(--brand-hue) / 0.4); }
+  50% { box-shadow: 0 0 0 8px oklch(58% var(--brand-chroma) var(--brand-hue) / 0); }
+}
+
+.animate-fade-in { animation: fadeIn 0.3s ease forwards; }
+.animate-fade-in-up { animation: fadeInUp 0.4s ease forwards; }
+.animate-scale-in { animation: scaleIn 0.2s ease forwards; }
+
+/* ── Skeleton loading ──────────────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-elevated) 25%,
+    var(--bg-overlay) 50%,
+    var(--bg-elevated) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+/* ── Priority colors ───────────────────────────────────────────────────────── */
+.priority-baixa  { --priority-color: oklch(68% 0.18 160); }
+.priority-normal { --priority-color: oklch(72% 0.18 210); }
+.priority-alta   { --priority-color: oklch(75% 0.18 80); }
+.priority-urgent { --priority-color: oklch(65% 0.25 25); }
+
+/* ── Sidebar transition ─────────────────────────────────────────────────────── */
+.sidebar-transition {
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.backdrop-blur-premium {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  backdrop-filter: blur(16px) !important;
+}

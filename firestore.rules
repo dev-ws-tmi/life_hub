@@ -1,0 +1,90 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper: usuari autenticat
+    function isAuthenticated() {
+      return request.auth != null && request.auth.uid != null;
+    }
+
+    // Helper: l'usuari accedeix a les seves pròpies dades (per path)
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Helper genèric per col·leccions planes on l'UID és part del document
+    function isDocOwner() {
+      return isAuthenticated() &&
+        (resource == null || resource.data.userId == request.auth.uid) &&
+        (request.resource == null || request.resource.data.userId == request.auth.uid);
+    }
+
+    // Denegació per defecte
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ── Perfil d'usuari ───────────────────────────────────────────────────────
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+
+      // Totes les subcol·leccions dins /users/{userId}/** (finances, shopping, hàbits, salut, etc.)
+      match /{subcollection}/{docId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Subcol·leccions niuades més profundes (ex: /users/{uid}/shopping/data/purchases/{id})
+      match /{subcollection}/{docId}/{nested=**} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+
+    // ── Col·leccions arrel amb userId al document ─────────────────────────────
+
+    // Cursos
+    match /courses/{courseId} {
+      allow read, write: if isDocOwner();
+    }
+
+    // Assignatures
+    match /subjects/{subjectId} {
+      allow read, write: if isDocOwner();
+    }
+
+    // Temes
+    match /topics/{topicId} {
+      allow read, write: if isDocOwner();
+    }
+
+    // Activitats
+    match /activities/{activityId} {
+      allow read, write: if isDocOwner();
+    }
+
+    // Notes/Historial matemàtic
+    match /grades/{gradeId} {
+      allow read, write: if isDocOwner();
+    }
+
+    // Sessions d'estudi
+    match /studySessions/{sessionId} {
+      allow read, write: if isDocOwner();
+    }
+
+    // Documents/Fitxers de suport
+    match /documents/{documentId} {
+      allow read, write: if isDocOwner();
+    }
+
+    // Esdeveniments calendari
+    match /calendarEvents/{eventId} {
+      allow read, write: if isDocOwner();
+    }
+
+    // Notificacions de sistema
+    match /notifications/{notificationId} {
+      allow read, write: if isDocOwner();
+    }
+  }
+}
