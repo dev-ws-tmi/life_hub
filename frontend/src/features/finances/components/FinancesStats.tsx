@@ -165,7 +165,7 @@ export default function FinancesStats() {
             <TrendingUp size={16} className="text-brand-500" /> Evolució del Saldo (Darrers 30 dies)
           </h4>
           <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
               <AreaChart data={balanceEvolutionData}>
                 <defs>
                   <linearGradient id="colorBalance" x1="0" y1="0" x2="0" y2="1">
@@ -196,7 +196,7 @@ export default function FinancesStats() {
             <BarChart3 size={16} className="text-brand-500" /> Ingressos vs Despeses (Últims 6 mesos)
           </h4>
           <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
               <BarChart data={monthlyComparisonData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" />
                 <XAxis dataKey="month" stroke="var(--text-muted)" fontSize={10} tickLine={false} />
@@ -229,7 +229,7 @@ export default function FinancesStats() {
                   Sense dades de despesa
                 </div>
               ) : (
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                   <PieChart>
                     <Pie
                       data={categorySpendingData}

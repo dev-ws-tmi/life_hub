@@ -58,7 +58,6 @@ interface AuthContextValue {
   userProfile: UserProfile | null;
   loading: boolean;
   error: string | null;
-  isDemo: boolean;
   login: (email: string, password: string) => Promise<void>;
   loginWithGoogle: () => Promise<void>;
   register: (email: string, password: string, displayName: string) => Promise<void>;
@@ -168,8 +167,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const loginWithGoogle = async () => {
     setError(null);
-    const provider = new GoogleAuthProvider();
     try {
+      const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
     } catch (err: any) {
       setError(err.message);
@@ -267,7 +266,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       userProfile,
       loading,
       error,
-      isDemo: false, // Ara Firebase està actiu!
       login,
       loginWithGoogle,
       register,

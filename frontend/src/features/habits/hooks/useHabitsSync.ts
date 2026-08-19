@@ -33,20 +33,25 @@ export function useHabitsSync() {
       });
     };
 
+    const handleSyncError = (name: string) => (error: any) => {
+      if (error.code === 'permission-denied') return;
+      console.error(`Error syncing habits ${name}:`, error);
+    };
+
     const unsubHabits = onSnapshot(cHabits, (snap) => {
       localHabits = snap.docs.map(d => ({ id: d.id, ...d.data() } as any));
       syncToStore();
-    }, (err) => console.error("Error syncing habits list:", err));
+    }, handleSyncError('list'));
 
     const unsubLogs = onSnapshot(cLogs, (snap) => {
       localLogs = snap.docs.map(d => ({ id: d.id, ...d.data() } as any));
       syncToStore();
-    }, (err) => console.error("Error syncing habits logs:", err));
+    }, handleSyncError('logs'));
 
     const unsubGoals = onSnapshot(cGoals, (snap) => {
       localGoals = snap.docs.map(d => ({ id: d.id, ...d.data() } as any));
       syncToStore();
-    }, (err) => console.error("Error syncing habits goals:", err));
+    }, handleSyncError('goals'));
 
     return () => {
       unsubHabits();

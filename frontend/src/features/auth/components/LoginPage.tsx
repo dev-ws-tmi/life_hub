@@ -31,8 +31,8 @@ export default function LoginPage() {
     try {
       await login(email, password);
       toast.success('Benvingut/da!');
-    } catch {
-      // Error ja gestionat per useAuth
+    } catch (err: any) {
+      toast.error(err.message || 'Error en iniciar sessió');
     } finally {
       setLoading(false);
     }
@@ -43,8 +43,8 @@ export default function LoginPage() {
     try {
       await loginWithGoogle();
       toast.success('Benvingut/da!');
-    } catch {
-      // Error ja gestionat
+    } catch (err: any) {
+      toast.error(err.message || 'Error en l’autenticació amb Google');
     } finally {
       setGoogleLoading(false);
     }
@@ -146,14 +146,6 @@ export default function LoginPage() {
         </svg>
         Continua amb Google
       </Button>
-
-      {/* Registre */}
-      <p className="text-center text-sm text-[var(--text-secondary)]">
-        No tens compte?{' '}
-        <Link to="/auth/registre" className="text-[oklch(58%_0.22_290)] font-medium hover:underline">
-          Crea'n un gratuïtament
-        </Link>
-      </p>
     </div>
   );
 }

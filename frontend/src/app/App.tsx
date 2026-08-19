@@ -22,6 +22,7 @@ const FinancesPage = lazy(() => import('@/features/finances/components/FinancesP
 const PlaceholderPage = lazy(() => import('@/shared/components/ui/PlaceholderPage'));
 const HabitsPage = lazy(() => import('@/features/habits/components/HabitsPage'));
 const ShoppingPage = lazy(() => import('@/features/shopping/components/ShoppingPage'));
+const HealthPage = lazy(() => import('@/features/health/components/HealthPage'));
 
 // ── Route guard ───────────────────────────────────────────────────────────────
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -113,8 +114,8 @@ const router = createBrowserRouter([
         element: <ShoppingPage />,
       },
       {
-        path: '/salut',
-        element: <PlaceholderPage title="Salut" />,
+        path: '/salut/*',
+        element: <HealthPage />,
       },
       {
         path: '/documents',

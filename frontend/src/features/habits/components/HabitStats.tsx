@@ -202,7 +202,7 @@ export default function HabitStats() {
             <Calendar size={16} className="text-brand-500" /> Progrés dels últims 7 dies
           </h4>
           <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
               <LineChart data={weeklyTrendData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" vertical={false} />
                 <XAxis dataKey="dayName" stroke="var(--text-muted)" fontSize={10} tickLine={false} />
@@ -232,7 +232,7 @@ export default function HabitStats() {
                 No hi ha prou dades per categoritzar
               </div>
             ) : (
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                 <BarChart data={categoryComplianceData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" vertical={false} />
                   <XAxis dataKey="name" stroke="var(--text-muted)" fontSize={9} tickLine={false} />

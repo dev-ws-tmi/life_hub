@@ -179,7 +179,7 @@ export default function StatsPage() {
               {dailyData.length === 0 ? (
                 <p className="text-sm text-[var(--text-muted)] text-center py-10">Cap dada per al període seleccionat</p>
               ) : (
-                <ResponsiveContainer width="100%" height={220}>
+                <ResponsiveContainer width="100%" height={220} minWidth={0} minHeight={0}>
                   <BarChart data={dailyData} margin={{ top: 5, right: 5, left: -25, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" vertical={false} />
                     <XAxis dataKey="day" tick={{ fontSize: 10, fill: 'var(--text-muted)' }} axisLine={false} tickLine={false} />
@@ -198,7 +198,7 @@ export default function StatsPage() {
                 <p className="text-sm text-[var(--text-muted)] text-center py-10">Cap tasca completada</p>
               ) : (
                 <>
-                  <ResponsiveContainer width="100%" height={150}>
+                  <ResponsiveContainer width="100%" height={150} minWidth={0} minHeight={0}>
                     <PieChart>
                       <Pie data={taskData} cx="50%" cy="50%" innerRadius={45} outerRadius={70} dataKey="value" paddingAngle={3}>
                         {taskData.map((entry, i) => (
@@ -228,7 +228,7 @@ export default function StatsPage() {
           {subjects.length > 0 && (
             <div className="card p-5">
               <h3 className="font-semibold text-[var(--text-primary)] mb-4">Relació Temps d'Estudi vs Nota Mitjana per Assignatura</h3>
-              <ResponsiveContainer width="100%" height={220}>
+              <ResponsiveContainer width="100%" height={220} minWidth={0} minHeight={0}>
                 <BarChart data={timeVsGrade} margin={{ top: 5, right: 5, left: -25, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" vertical={false} />
                   <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'var(--text-muted)' }} axisLine={false} tickLine={false} />

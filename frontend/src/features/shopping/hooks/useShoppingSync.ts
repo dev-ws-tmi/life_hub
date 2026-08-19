@@ -34,6 +34,7 @@ export function useShoppingSync() {
         store.setItems(itemsList);
       },
       (error) => {
+        if (error.code === 'permission-denied') return;
         console.error('Error syncing shopping items:', error);
       }
     );
@@ -53,6 +54,7 @@ export function useShoppingSync() {
         store.setLoading(false);
       },
       (error) => {
+        if (error.code === 'permission-denied') return;
         console.error('Error syncing past purchases:', error);
         store.setLoading(false);
       }

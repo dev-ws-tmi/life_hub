@@ -2,8 +2,10 @@ import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth, connectAuthEmulator } from 'firebase/auth';
 import {
   getFirestore,
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
   connectFirestoreEmulator,
-  enableIndexedDbPersistence,
 } from 'firebase/firestore';
 import { getStorage, connectStorageEmulator } from 'firebase/storage';
 import { getAnalytics, isSupported } from 'firebase/analytics';
@@ -24,13 +26,29 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
 // ── Serveis ───────────────────────────────────────────────────────────────────
 export const auth = getAuth(app);
-export const db = getFirestore(app);
+
+// Inicialització de Firestore amb persistència moderna
+let firestoreDb;
+try {
+  firestoreDb = initializeFirestore(app, {
+    localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+  });
+} catch {
+  firestoreDb = getFirestore(app);
+}
+export const db = firestoreDb;
+
 export const storage = getStorage(app);
 
-// Analytics (només en producció i si el navegador ho suporta)
-export const analytics = isSupported().then((supported) =>
-  supported ? getAnalytics(app) : null
-);
+// Analytics
+export const analytics =
+  typeof window !== 'undefined' &&
+  import.meta.env.PROD &&
+  import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+    ? isSupported()
+        .then((supported) => (supported ? getAnalytics(app) : null))
+        .catch(() => null)
+    : Promise.resolve(null);
 
 // ── Emuladors (Desenvolupament) ───────────────────────────────────────────────
 if (import.meta.env.VITE_APP_ENV === 'development' && import.meta.env.VITE_USE_EMULATORS === 'true') {
@@ -40,15 +58,5 @@ if (import.meta.env.VITE_APP_ENV === 'development' && import.meta.env.VITE_USE_E
   console.info('🔧 Firebase Emulators actius');
 }
 
-// ── Persistència offline Firestore ────────────────────────────────────────────
-if (typeof window !== 'undefined') {
-  enableIndexedDbPersistence(db).catch((err) => {
-    if (err.code === 'failed-precondition') {
-      console.warn('Firestore: múltiples pestanyes obertes, persistència desactivada');
-    } else if (err.code === 'unimplemented') {
-      console.warn('Firestore: el navegador no suporta persistència offline');
-    }
-  });
-}
-
 export default app;
+

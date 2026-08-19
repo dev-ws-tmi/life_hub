@@ -73,7 +73,7 @@ export default function ShoppingAnalytics() {
 
           <div className="h-64">
             {categoryChartData.length > 0 ? (
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                 <PieChart>
                   <Pie
                     data={categoryChartData}
@@ -153,7 +153,7 @@ export default function ShoppingAnalytics() {
 
           <div className="h-64">
             {supermarketChartData.length > 0 ? (
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                 <BarChart data={supermarketChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" />
                   <XAxis dataKey="name" stroke="var(--text-muted)" fontSize={10} />

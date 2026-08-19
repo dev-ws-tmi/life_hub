@@ -52,46 +52,51 @@ export function useFinancesSync() {
       });
     };
 
+    const handleSyncError = (name: string) => (error: any) => {
+      if (error.code === 'permission-denied') return;
+      console.error(`Error syncing finances ${name}:`, error);
+    };
+
     // Subscriptions to snapshots
     const unsubAccounts = onSnapshot(cAccounts, (snap) => {
       localAccounts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       syncToStore();
-    }, (err) => console.error("Error syncing finances accounts:", err));
+    }, handleSyncError('accounts'));
 
     const unsubTransactions = onSnapshot(cTransactions, (snap) => {
       localTransactions = snap.docs.map(d => ({ id: d.id, ...d.data() } as any)).sort((a, b) => b.date.localeCompare(a.date));
       syncToStore();
-    }, (err) => console.error("Error syncing finances transactions:", err));
+    }, handleSyncError('transactions'));
 
     const unsubCategories = onSnapshot(cCategories, (snap) => {
       localCategories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       syncToStore();
-    }, (err) => console.error("Error syncing finances categories:", err));
+    }, handleSyncError('categories'));
 
     const unsubBudgets = onSnapshot(cBudgets, (snap) => {
       localBudgets = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       syncToStore();
-    }, (err) => console.error("Error syncing finances budgets:", err));
+    }, handleSyncError('budgets'));
 
     const unsubGoals = onSnapshot(cGoals, (snap) => {
       localGoals = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       syncToStore();
-    }, (err) => console.error("Error syncing finances goals:", err));
+    }, handleSyncError('goals'));
 
     const unsubSubscriptions = onSnapshot(cSubscriptions, (snap) => {
       localSubscriptions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       syncToStore();
-    }, (err) => console.error("Error syncing finances subscriptions:", err));
+    }, handleSyncError('subscriptions'));
 
     const unsubDebts = onSnapshot(cDebts, (snap) => {
       localDebts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       syncToStore();
-    }, (err) => console.error("Error syncing finances debts:", err));
+    }, handleSyncError('debts'));
 
     const unsubRecurring = onSnapshot(cRecurring, (snap) => {
       localRecurring = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       syncToStore();
-    }, (err) => console.error("Error syncing finances recurring payments:", err));
+    }, handleSyncError('recurring payments'));
 
     return () => {
       unsubAccounts();

@@ -112,20 +112,25 @@ export function useFirestoreSync() {
       useTasksStore.setState({ tasks: mappedTasks });
     };
 
+    const handleSyncError = (name: string) => (error: any) => {
+      if (error.code === 'permission-denied') return;
+      console.error(`Error syncing ${name}:`, error);
+    };
+
     const unsubSubjects = onSnapshot(qSubjects, (snapshot) => {
       localSubjects = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       assembleAndSync();
-    }, (error) => console.error("Error syncing subjects:", error));
+    }, handleSyncError('subjects'));
 
     const unsubTopics = onSnapshot(qTopics, (snapshot) => {
       localTopics = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       assembleAndSync();
-    }, (error) => console.error("Error syncing topics:", error));
+    }, handleSyncError('topics'));
 
     const unsubActivities = onSnapshot(qActivities, (snapshot) => {
       localActivities = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       assembleAndSync();
-    }, (error) => console.error("Error syncing activities:", error));
+    }, handleSyncError('activities'));
 
     return () => {
       unsubSubjects();
